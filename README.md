@@ -43,12 +43,13 @@ git clone https://github.com/Radio-Source/new_gr-radio_astro/
 ![new_gr-radio_astro_cmd-git](https://github.com/user-attachments/assets/311a77b3-4a9e-498c-ad65-43ce8cca50d9)
 
 to copy my new_gr-radio_astro repository in your Documents directory
+
 Now goto Documents/new_gr-radio_astro repository for the next step to install
 ![new_gr-radio_astro_dir](https://github.com/user-attachments/assets/13f28fff-2901-468f-8a72-c66e3cc770ba)
 
-copy inside radioconda directory 
+copy inside radioconda directory (radioconda dir is inside your user namespace)
 --------------------------------
-radioconda/Lib/site-packages/radio_astro/      (Python files)
+radioconda/Lib/site-packages/gnuradio/radio_astro/      (Python files)
 
 radioconda/Library/share/gnuradio/grc/blocs/     (yml files)
 
