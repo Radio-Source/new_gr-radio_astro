@@ -11,6 +11,8 @@ GnuRadio (linux)       Radioconda (Windows)
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
 Linux Install (please see explainations here https://github.com/WVURAIL/gr-radio_astro or in my fork https://github.com/Radio-Source/gr-radio_astro
 -------------
 Then copy or clone my modified code of DSPIRA Spectrometer in https://github.com/Radio-Source/new_gr-radio_astro/tree/main/DSPIRA
@@ -18,6 +20,8 @@ Then copy or clone my modified code of DSPIRA Spectrometer in https://github.com
 Run Gnuradio-Compagnion open /DSPIRA/spectrometer_w_cal.grc and run 
 Next you run directly from shell with command :
 Python3 DSPIRA_Spectrometer.py
+
+
 
 
 
