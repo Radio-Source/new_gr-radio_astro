@@ -5,7 +5,7 @@ Work on Ubuntu 24.04 LTS or Windows 10-11
 -----------------------------------------
 prerequisites
 Python 3.xx
-GNuradio (linux)  Radioconda (Windows)
+GnuRadio (linux)       Radioconda (Windows)
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 Linux Install (please see explainations here https://github.com/WVURAIL/gr-radio_astro or in my fork https://github.com/Radio-Source/gr-radio_astro
 -------------
