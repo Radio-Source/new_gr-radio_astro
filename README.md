@@ -16,8 +16,8 @@ Next you run directly from shell with command :
 Python3 DSPIRA_Spectrometer.py
 
 
-Windows 10-11
--------------
+Windows 10-11 install
+---------------------
 Download and install Python 3.12 https://www.python.org/downloads/windows/
 Download and install radioconda (Gnuradio for Windows) https://github.com/ryanvolz/radioconda
 
