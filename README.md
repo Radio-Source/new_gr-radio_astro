@@ -28,6 +28,7 @@ Python3 DSPIRA_Spectrometer.py
 Windows 10-11 install
 ---------------------
 Download and install Python 3.12 https://www.python.org/downloads/windows/
+
 Download and install radioconda (Gnuradio for Windows) https://github.com/ryanvolz/radioconda
 
 Plug your SDR into your computer and test if it work with GQRX installed in Radioconda.
