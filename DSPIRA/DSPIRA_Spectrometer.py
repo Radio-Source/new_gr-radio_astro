@@ -484,7 +484,7 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         for c in range(8, 9):
             self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         self.osmosdr_source_0 = osmosdr.source(
-            args="numchan=" + str(1) + " " + 'airspy=0,bias=0,pack=0'
+            args="numchan=" + str(1) + " " + ''
         )
         self.osmosdr_source_0.set_time_unknown_pps(osmosdr.time_spec_t())
         self.osmosdr_source_0.set_sample_rate(samp_rate)
