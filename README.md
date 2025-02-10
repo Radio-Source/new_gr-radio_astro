@@ -33,12 +33,12 @@ Download and install Python 3.12 https://www.python.org/downloads/windows/
 
 Download and install radioconda (Gnuradio for Windows) https://github.com/ryanvolz/radioconda
 
-Plug your SDR into your computer and test if it work with GQRX installed in Radioconda.
-if it work continue install
+Read comment about SDR install under Windows
 
 Download git for easy copying my repository
 After install open CMD shell and goto your Documents directory
-Then type command : git clone https://github.com/Radio-Source/new_gr-radio_astro/
+Then type command :
+git clone https://github.com/Radio-Source/new_gr-radio_astro/
 ![new_gr-radio_astro_cmd-git](https://github.com/user-attachments/assets/311a77b3-4a9e-498c-ad65-43ce8cca50d9)
 
 to copy my new_gr-radio_astro repository in your Documents directory
