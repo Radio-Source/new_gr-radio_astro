@@ -13,7 +13,7 @@ Then copy or clone my mofified code of DSPIRA Spectrometer in https://github.com
 
 Run Gnuradio-Compagnion open /DSPIRA/spectrometer_w_cal.grc and run 
 Next you run directly from shell with command :
-Pyhon3 DSPIRA_Spectrometer.py
+Python3 DSPIRA_Spectrometer.py
 
 
 Windows 10-11
@@ -23,6 +23,8 @@ Download and install radioconda (Gnuradio for Windows) https://github.com/ryanvo
 Download git for easy copying my repository
 After install open CMD shell and goto your Documents directory
 Then type command : git clone https://github.com/Radio-Source/new_gr-radio_astro/
+![new_gr-radio_astro_cmd-git](https://github.com/user-attachments/assets/311a77b3-4a9e-498c-ad65-43ce8cca50d9)
+
 to copy my new_gr-radio_astro repository in your Documents directory
 Now goto Documents/new_gr-radio_astro repository for the next step to install
 ![new_gr-radio_astro_dir](https://github.com/user-attachments/assets/13f28fff-2901-468f-8a72-c66e3cc770ba)
@@ -38,4 +40,8 @@ Restart Windows ^^
 
 Open radioconda (Gnuradio) 
 ![new_gr-radio_astro-gnuradio-windows](https://github.com/user-attachments/assets/71c6853b-a6ff-4c70-903d-71fdf8691530)
+
+In file menu got /Documents/new_gr-radio_astro/DSPIRA/ directory and open "spectrometer_w_cal.grc" then run
+------------------------------------------------------------------------------------------------
+
 
