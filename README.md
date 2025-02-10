@@ -9,7 +9,7 @@ GnuRadio (linux)       Radioconda (Windows)
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 Linux Install (please see explainations here https://github.com/WVURAIL/gr-radio_astro or in my fork https://github.com/Radio-Source/gr-radio_astro
 -------------
-Then copy or clone my mofified code of DSPIRA Spectrometer in https://github.com/Radio-Source/new_gr-radio_astro/tree/main/DSPIRA
+Then copy or clone my modified code of DSPIRA Spectrometer in https://github.com/Radio-Source/new_gr-radio_astro/tree/main/DSPIRA
 
 Run Gnuradio-Compagnion open /DSPIRA/spectrometer_w_cal.grc and run 
 Next you run directly from shell with command :
@@ -20,6 +20,9 @@ Windows 10-11
 -------------
 Download and install Python 3.12 https://www.python.org/downloads/windows/
 Download and install radioconda (Gnuradio for Windows) https://github.com/ryanvolz/radioconda
+Plug your SDR into your computer and test if it work with GQRX installed in Radioconda.
+if it work continue install
+
 Download git for easy copying my repository
 After install open CMD shell and goto your Documents directory
 Then type command : git clone https://github.com/Radio-Source/new_gr-radio_astro/
