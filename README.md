@@ -35,7 +35,7 @@ Download and install radioconda (Gnuradio for Windows) https://github.com/ryanvo
 
 Read comment about SDR install under Windows
 
-Download git for easy copying my repository
+Download git for easy copying my repository  https://git-scm.com/downloads/win
 After install open CMD shell and goto your Documents directory
 Then type command :
 
