@@ -67,6 +67,7 @@ In file menu goto /Documents/new_gr-radio_astro/DSPIRA/ directory and open "spec
 You can change some parameters in flowgraph (see explanation in the Docs of DSPIRA)
 
 for example, if you whant to go up the power from our SDR to lna, change in osmocom source Bias value 0 to 1
+airpy=0,bias=1,pack=0
 
 ![new_gr-radio_astro_edit_flowgraph](https://github.com/user-attachments/assets/881a64fe-53ab-4ace-9ecf-889b87d032de)
 
