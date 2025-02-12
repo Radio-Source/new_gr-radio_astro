@@ -78,7 +78,7 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.sinc = sinc = np.sinc(sinc_sample_locations/np.pi)
         self.short_long_time_scale = short_long_time_scale = int((integration_time2*samp_rate/vec_length/min_integration)/(integration_time1*samp_rate/vec_length/min_integration))
         self.prefix = prefix = ""
-        self.freq = freq = 1419e6
+        self.freq = freq = 14204e5
         self.ymin = ymin = 0
         self.ymax = ymax = 200
         self.spectrumcapture_toggle = spectrumcapture_toggle = 'False'
@@ -539,8 +539,8 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_stream_to_vector_0_0, 0), (self.blocks_multiply_const_vxx_0_0, 0))
         self.connect((self.blocks_stream_to_vector_0_0_0, 0), (self.blocks_multiply_const_vxx_0_0_0, 0))
         self.connect((self.blocks_stream_to_vector_0_0_0_0, 0), (self.blocks_multiply_const_vxx_0_0_0_0, 0))
-        self.connect((self.fft_vxx_0, 0), (self.blocks_multiply_conjugate_cc_0, 1))
         self.connect((self.fft_vxx_0, 0), (self.blocks_multiply_conjugate_cc_0, 0))
+        self.connect((self.fft_vxx_0, 0), (self.blocks_multiply_conjugate_cc_0, 1))
         self.connect((self.osmosdr_source_0, 0), (self.blocks_complex_to_real_0, 0))
         self.connect((self.osmosdr_source_0, 0), (self.blocks_delay_0, 0))
         self.connect((self.osmosdr_source_0, 0), (self.blocks_delay_0_0, 0))

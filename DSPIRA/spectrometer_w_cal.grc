@@ -153,7 +153,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 1419e6
+    value: 14204e5
   states:
     bus_sink: false
     bus_source: false
