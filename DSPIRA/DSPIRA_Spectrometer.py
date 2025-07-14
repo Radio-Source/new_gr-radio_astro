@@ -78,7 +78,7 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.sinc = sinc = np.sinc(sinc_sample_locations/np.pi)
         self.short_long_time_scale = short_long_time_scale = int((integration_time2*samp_rate/vec_length/min_integration)/(integration_time1*samp_rate/vec_length/min_integration))
         self.prefix = prefix = ""
-        self.freq = freq = 14204e5
+        self.freq = freq = 1420.4e6
         self.ymin = ymin = 0
         self.ymax = ymax = 200
         self.spectrumcapture_toggle = spectrumcapture_toggle = 'False'
@@ -484,7 +484,7 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         for c in range(8, 9):
             self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         self.osmosdr_source_0 = osmosdr.source(
-            args="numchan=" + str(1) + " " + ''
+            args="numchan=" + str(1) + " " + 'airspy=0,bias=1,pack=0'
         )
         self.osmosdr_source_0.set_time_unknown_pps(osmosdr.time_spec_t())
         self.osmosdr_source_0.set_sample_rate(samp_rate)
