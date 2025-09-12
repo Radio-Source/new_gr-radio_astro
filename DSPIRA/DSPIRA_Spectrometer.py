@@ -11,7 +11,6 @@
 
 from PyQt5 import Qt
 from gnuradio import qtgui
-from PyQt5 import QtCore
 from PyQt5.QtCore import QObject, pyqtSlot
 from datetime import datetime
 from gnuradio import blocks
@@ -26,16 +25,19 @@ from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import radio_astro
+import ephem
 import numpy as np
 import osmosdr
 import time
+import ra_funcs
 import sip
+import threading
 
 
 
 class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
 
-    def __init__(self):
+    def __init__(self, dev_args=''):
         gr.top_block.__init__(self, "DSPIRA Spectrometer", catch_exceptions=True)
         Qt.QWidget.__init__(self)
         self.setWindowTitle("DSPIRA Spectrometer")
@@ -66,36 +68,50 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
             print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
 
         ##################################################
+        # Parameters
+        ##################################################
+        self.dev_args = dev_args
+
+        ##################################################
         # Variables
         ##################################################
         self.vec_length = vec_length = 4096
+        self.pacer = pacer = 0.0
+        self.latitude = latitude = 45.0000
+        self.elev = elev = '45'
+        self.tiktok = tiktok = pacer*0.0
         self.sinc_sample_locations = sinc_sample_locations = np.arange(-np.pi*4/2.0, np.pi*4/2.0, np.pi/vec_length)
-        self.samp_rate = samp_rate = 2.5e6
+        self.samp_rate = samp_rate = 10e6
         self.min_integration = min_integration = 16
-        self.integration_time2 = integration_time2 = 10
-        self.integration_time1 = integration_time1 = .4
-        self.timenow = timenow = datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
+        self.longitude = longitude = 0
+        self.integration_time2 = integration_time2 = 60.00
+        self.integration_time1 = integration_time1 = 0.5
+        self.decln = decln = float(elev)-latitude
+        self.timenow = timenow = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         self.sinc = sinc = np.sinc(sinc_sample_locations/np.pi)
         self.short_long_time_scale = short_long_time_scale = int((integration_time2*samp_rate/vec_length/min_integration)/(integration_time1*samp_rate/vec_length/min_integration))
         self.prefix = prefix = ""
+        self.lmst = lmst = ra_funcs.cur_sidereal(longitude+tiktok)
         self.freq = freq = 1420.4e6
-        self.ymin = ymin = 0
-        self.ymax = ymax = 200
+        self.declnstr = declnstr =  str("%3.2f" % decln) if (decln<0) else "+"+str("%3.2f" % (decln))
         self.spectrumcapture_toggle = spectrumcapture_toggle = 'False'
         self.save_toggle_csv = save_toggle_csv = "False"
         self.reset_integration_button = reset_integration_button = 0
-        self.rectfile = rectfile = prefix + timenow + ".h5"
-        self.location = location = 'Anytown'
-        self.integration_select = integration_select = 0
+        self.rectfile = rectfile = prefix + timenow + "h5"
+        self.location = location = 'yourtown'
+        self.integration_select = integration_select = 1
         self.graphprint_toggle = graphprint_toggle = "False"
         self.graphinfo = graphinfo = ""
         self.freq_step = freq_step = samp_rate/vec_length
         self.freq_start = freq_start = freq - samp_rate/2
-        self.elev = elev = '0'
+        self.declnfile = declnfile = declnstr.replace(".","d")
+        self.dec = dec = declnstr
         self.custom_window = custom_window = sinc*np.hamming(4*vec_length)
         self.collect = collect = "nocal"
         self.clip_toggle = clip_toggle = "True"
-        self.az = az = '0'
+        self.az180 = az180 = '180'
+        self.az = az = lmst
+        self.amsl = amsl = 600
         self.N_long_integration = N_long_integration = int(short_long_time_scale*(integration_time1*samp_rate/vec_length/min_integration))
 
         ##################################################
@@ -114,20 +130,6 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.qtgui_tab_widget_0_layout_1.addLayout(self.qtgui_tab_widget_0_grid_layout_1)
         self.qtgui_tab_widget_0.addTab(self.qtgui_tab_widget_0_widget_1, 'System Temp/Gain')
         self.top_layout.addWidget(self.qtgui_tab_widget_0)
-        self._ymin_range = qtgui.Range(-200, 1000, 10, 0, 5)
-        self._ymin_win = qtgui.RangeWidget(self._ymin_range, self.set_ymin, "y-axis min", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._ymin_win, 0, 0, 1, 1)
-        for r in range(0, 1):
-            self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
-        for c in range(0, 1):
-            self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
-        self._ymax_range = qtgui.Range(0, 10000, 10, 200, 5)
-        self._ymax_win = qtgui.RangeWidget(self._ymax_range, self.set_ymax, "y-axis max", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._ymax_win, 1, 0, 1, 1)
-        for r in range(1, 2):
-            self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
-        for c in range(0, 1):
-            self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         _spectrumcapture_toggle_push_button = Qt.QPushButton('Capture Current Spectrum')
         _spectrumcapture_toggle_push_button = Qt.QPushButton('Capture Current Spectrum')
         self._spectrumcapture_toggle_choices = {'Pressed': 'True', 'Released': 'False'}
@@ -178,15 +180,15 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         for c in range(2, 3):
             self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         self._location_tool_bar = Qt.QToolBar(self)
-        self._location_tool_bar.addWidget(Qt.QLabel("location (hit 'Enter' after typing)" + ": "))
+        self._location_tool_bar.addWidget(Qt.QLabel("Location  " + ": "))
         self._location_line_edit = Qt.QLineEdit(str(self.location))
         self._location_tool_bar.addWidget(self._location_line_edit)
         self._location_line_edit.editingFinished.connect(
             lambda: self.set_location(str(str(self._location_line_edit.text()))))
-        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._location_tool_bar, 2, 3, 1, 4)
+        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._location_tool_bar, 2, 2, 1, 2)
         for r in range(2, 3):
             self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
-        for c in range(3, 7):
+        for c in range(2, 4):
             self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         # Create the options list
         self._integration_select_options = [0, 1]
@@ -231,7 +233,7 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
             lambda: self.set_graphinfo(str(str(self._graphinfo_line_edit.text()))))
         self.qtgui_tab_widget_0_layout_0.addWidget(self._graphinfo_tool_bar)
         self._elev_tool_bar = Qt.QToolBar(self)
-        self._elev_tool_bar.addWidget(Qt.QLabel("elevation (hit 'Enter' after typing)" + ": "))
+        self._elev_tool_bar.addWidget(Qt.QLabel("elevation (hit 'Enter')" + ": "))
         self._elev_line_edit = Qt.QLineEdit(str(self.elev))
         self._elev_tool_bar.addWidget(self._elev_line_edit)
         self._elev_line_edit.editingFinished.connect(
@@ -265,10 +267,10 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self._collect_callback(self.collect)
         self._collect_button_group.buttonClicked[int].connect(
             lambda i: self.set_collect(self._collect_options[i]))
-        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._collect_group_box, 0, 1, 1, 1)
+        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._collect_group_box, 0, 0, 1, 1)
         for r in range(0, 1):
             self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
-        for c in range(1, 2):
+        for c in range(0, 1):
             self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         # Create the options list
         self._clip_toggle_options = ['True', 'False']
@@ -300,21 +302,25 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         for c in range(4, 5):
             self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         self._az_tool_bar = Qt.QToolBar(self)
-        self._az_tool_bar.addWidget(Qt.QLabel("azimuth (hit 'Enter' after typing)" + ": "))
-        self._az_line_edit = Qt.QLineEdit(str(self.az))
-        self._az_tool_bar.addWidget(self._az_line_edit)
-        self._az_line_edit.editingFinished.connect(
-            lambda: self.set_az(str(str(self._az_line_edit.text()))))
-        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._az_tool_bar, 2, 0, 1, 2)
+
+        if None:
+            self._az_formatter = None
+        else:
+            self._az_formatter = lambda x: str(x)
+
+        self._az_tool_bar.addWidget(Qt.QLabel("LMST : "))
+        self._az_label = Qt.QLabel(str(self._az_formatter(self.az)))
+        self._az_tool_bar.addWidget(self._az_label)
+        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._az_tool_bar, 2, 1, 1, 1)
         for r in range(2, 3):
             self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
-        for c in range(0, 2):
+        for c in range(1, 2):
             self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         self.radio_astro_vector_moving_average_0 = radio_astro.vector_moving_average(float,vec_length, short_long_time_scale, reset_integration_button)
         self.radio_astro_systemp_calibration_0 = radio_astro.systemp_calibration(vec_length, collect, samp_rate, freq, prefix, spectrumcapture_toggle, clip_toggle, az, elev, location)
         self.radio_astro_png_print_spectrum_0 = radio_astro.png_print_spectrum(vec_length, samp_rate, freq, prefix, graphprint_toggle, graphinfo)
         self.radio_astro_integration_0 = radio_astro.integration(vec_length, (int(integration_time1*samp_rate/vec_length/min_integration)))
-        self.radio_astro_csv_filesink_0 = radio_astro.csv_filesink( vec_length, samp_rate, freq, prefix, save_toggle_csv, integration_select, short_long_time_scale, az, elev, location)
+        self.radio_astro_csv_filesink_0 = radio_astro.csv_filesink( vec_length, samp_rate, freq, prefix, save_toggle_csv, integration_select, short_long_time_scale, az, declnfile, location)
         self.qtgui_vector_sink_f_0_0_1 = qtgui.vector_sink_f(
             vec_length,
             ((freq - samp_rate/2)/1e6),
@@ -326,7 +332,7 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_vector_sink_f_0_0_1.set_update_time(0.10)
-        self.qtgui_vector_sink_f_0_0_1.set_y_axis(ymin, ymax)
+        self.qtgui_vector_sink_f_0_0_1.set_y_axis(0, 200)
         self.qtgui_vector_sink_f_0_0_1.enable_autoscale(True)
         self.qtgui_vector_sink_f_0_0_1.enable_grid(True)
         self.qtgui_vector_sink_f_0_0_1.set_x_axis_units("MHz")
@@ -483,22 +489,75 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
             self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
         for c in range(8, 9):
             self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
+        self.pacer_probe = blocks.probe_signal_f()
+        def _pacer_probe():
+          while True:
+
+            val = self.pacer_probe.level()
+            try:
+              try:
+                self.doc.add_next_tick_callback(functools.partial(self.set_pacer,val))
+              except AttributeError:
+                self.set_pacer(val)
+            except AttributeError:
+              pass
+            time.sleep(1.0 / (1))
+        _pacer_thread = threading.Thread(target=_pacer_probe)
+        _pacer_thread.daemon = True
+        _pacer_thread.start()
         self.osmosdr_source_0 = osmosdr.source(
-            args="numchan=" + str(1) + " " + 'airspy=0,bias=1,pack=0'
+            args="numchan=" + str(1) + " " + 'airspy=0,bias=0,pack=0'
         )
-        self.osmosdr_source_0.set_time_unknown_pps(osmosdr.time_spec_t())
+        self.osmosdr_source_0.set_time_now(osmosdr.time_spec_t(time.time()), osmosdr.ALL_MBOARDS)
         self.osmosdr_source_0.set_sample_rate(samp_rate)
         self.osmosdr_source_0.set_center_freq(freq, 0)
         self.osmosdr_source_0.set_freq_corr(0, 0)
         self.osmosdr_source_0.set_dc_offset_mode(0, 0)
         self.osmosdr_source_0.set_iq_balance_mode(0, 0)
         self.osmosdr_source_0.set_gain_mode(False, 0)
-        self.osmosdr_source_0.set_gain(21, 0)
-        self.osmosdr_source_0.set_if_gain(0, 0)
-        self.osmosdr_source_0.set_bb_gain(0, 0)
+        self.osmosdr_source_0.set_gain(50, 0)
+        self.osmosdr_source_0.set_if_gain(20, 0)
+        self.osmosdr_source_0.set_bb_gain(20, 0)
         self.osmosdr_source_0.set_antenna('', 0)
         self.osmosdr_source_0.set_bandwidth(0, 0)
+        self._longitude_tool_bar = Qt.QToolBar(self)
+        self._longitude_tool_bar.addWidget(Qt.QLabel("Longitude " + ": "))
+        self._longitude_line_edit = Qt.QLineEdit(str(self.longitude))
+        self._longitude_tool_bar.addWidget(self._longitude_line_edit)
+        self._longitude_line_edit.editingFinished.connect(
+            lambda: self.set_longitude(eng_notation.str_to_num(str(self._longitude_line_edit.text()))))
+        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._longitude_tool_bar, 2, 4, 1, 2)
+        for r in range(2, 3):
+            self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
+        for c in range(4, 6):
+            self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
+        self._latitude_tool_bar = Qt.QToolBar(self)
+        self._latitude_tool_bar.addWidget(Qt.QLabel("Latitude " + ": "))
+        self._latitude_line_edit = Qt.QLineEdit(str(self.latitude))
+        self._latitude_tool_bar.addWidget(self._latitude_line_edit)
+        self._latitude_line_edit.editingFinished.connect(
+            lambda: self.set_latitude(eng_notation.str_to_num(str(self._latitude_line_edit.text()))))
+        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._latitude_tool_bar, 3, 4, 1, 2)
+        for r in range(3, 4):
+            self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
+        for c in range(4, 6):
+            self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         self.fft_vxx_0 = fft.fft_vcc(vec_length, True, window.rectangular(vec_length), True, 1)
+        self._dec_tool_bar = Qt.QToolBar(self)
+
+        if None:
+            self._dec_formatter = None
+        else:
+            self._dec_formatter = lambda x: str(x)
+
+        self._dec_tool_bar.addWidget(Qt.QLabel("Target DEC : "))
+        self._dec_label = Qt.QLabel(str(self._dec_formatter(self.dec)))
+        self._dec_tool_bar.addWidget(self._dec_label)
+        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._dec_tool_bar, 3, 6, 1, 2)
+        for r in range(3, 4):
+            self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
+        for c in range(6, 8):
+            self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
         self.blocks_stream_to_vector_0_0_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, vec_length)
         self.blocks_stream_to_vector_0_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, vec_length)
         self.blocks_stream_to_vector_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, vec_length)
@@ -517,12 +576,39 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.blocks_complex_to_real_1 = blocks.complex_to_real(vec_length)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.blocks_add_xx_0 = blocks.add_vcc(vec_length)
+        self._az180_tool_bar = Qt.QToolBar(self)
+
+        if None:
+            self._az180_formatter = None
+        else:
+            self._az180_formatter = lambda x: str(x)
+
+        self._az180_tool_bar.addWidget(Qt.QLabel("az : "))
+        self._az180_label = Qt.QLabel(str(self._az180_formatter(self.az180)))
+        self._az180_tool_bar.addWidget(self._az180_label)
+        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._az180_tool_bar, 2, 0, 1, 1)
+        for r in range(2, 3):
+            self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
+        self._amsl_tool_bar = Qt.QToolBar(self)
+        self._amsl_tool_bar.addWidget(Qt.QLabel("AMSL " + ": "))
+        self._amsl_line_edit = Qt.QLineEdit(str(self.amsl))
+        self._amsl_tool_bar.addWidget(self._amsl_line_edit)
+        self._amsl_line_edit.editingFinished.connect(
+            lambda: self.set_amsl(int(str(self._amsl_line_edit.text()))))
+        self.qtgui_tab_widget_0_grid_layout_0.addWidget(self._amsl_tool_bar, 3, 2, 1, 2)
+        for r in range(3, 4):
+            self.qtgui_tab_widget_0_grid_layout_0.setRowStretch(r, 1)
+        for c in range(2, 4):
+            self.qtgui_tab_widget_0_grid_layout_0.setColumnStretch(c, 1)
 
 
         ##################################################
         # Connections
         ##################################################
         self.connect((self.blocks_add_xx_0, 0), (self.fft_vxx_0, 0))
+        self.connect((self.blocks_complex_to_real_0, 0), (self.pacer_probe, 0))
         self.connect((self.blocks_complex_to_real_0, 0), (self.qtgui_histogram_sink_x_0, 0))
         self.connect((self.blocks_complex_to_real_1, 0), (self.blocks_integrate_xx_0_0_0, 0))
         self.connect((self.blocks_delay_0, 0), (self.blocks_stream_to_vector_0_0, 0))
@@ -564,6 +650,12 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
 
         event.accept()
 
+    def get_dev_args(self):
+        return self.dev_args
+
+    def set_dev_args(self, dev_args):
+        self.dev_args = dev_args
+
     def get_vec_length(self):
         return self.vec_length
 
@@ -585,6 +677,37 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.qtgui_vector_sink_f_0_0_0.set_x_axis(((self.freq - self.samp_rate/2)/1e6), ((self.samp_rate/self.vec_length)/1e6))
         self.qtgui_vector_sink_f_0_0_1.set_x_axis(((self.freq - self.samp_rate/2)/1e6), ((self.samp_rate/self.vec_length)/1e6))
         self.radio_astro_integration_0.set_n_integrations((int(self.integration_time1*self.samp_rate/self.vec_length/self.min_integration)))
+
+    def get_pacer(self):
+        return self.pacer
+
+    def set_pacer(self, pacer):
+        self.pacer = pacer
+        self.set_tiktok(self.pacer*0.0)
+
+    def get_latitude(self):
+        return self.latitude
+
+    def set_latitude(self, latitude):
+        self.latitude = latitude
+        self.set_decln(float(self.elev)-self.latitude)
+        Qt.QMetaObject.invokeMethod(self._latitude_line_edit, "setText", Qt.Q_ARG("QString", eng_notation.num_to_str(self.latitude)))
+
+    def get_elev(self):
+        return self.elev
+
+    def set_elev(self, elev):
+        self.elev = elev
+        self.set_decln(float(self.elev)-self.latitude)
+        Qt.QMetaObject.invokeMethod(self._elev_line_edit, "setText", Qt.Q_ARG("QString", str(self.elev)))
+        self.radio_astro_systemp_calibration_0.set_elev(self.elev)
+
+    def get_tiktok(self):
+        return self.tiktok
+
+    def set_tiktok(self, tiktok):
+        self.tiktok = tiktok
+        self.set_lmst(ra_funcs.cur_sidereal(self.longitude+self.tiktok))
 
     def get_sinc_sample_locations(self):
         return self.sinc_sample_locations
@@ -617,6 +740,14 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.set_short_long_time_scale(int((self.integration_time2*self.samp_rate/self.vec_length/self.min_integration)/(self.integration_time1*self.samp_rate/self.vec_length/self.min_integration)))
         self.radio_astro_integration_0.set_n_integrations((int(self.integration_time1*self.samp_rate/self.vec_length/self.min_integration)))
 
+    def get_longitude(self):
+        return self.longitude
+
+    def set_longitude(self, longitude):
+        self.longitude = longitude
+        self.set_lmst(ra_funcs.cur_sidereal(self.longitude+self.tiktok))
+        Qt.QMetaObject.invokeMethod(self._longitude_line_edit, "setText", Qt.Q_ARG("QString", eng_notation.num_to_str(self.longitude)))
+
     def get_integration_time2(self):
         return self.integration_time2
 
@@ -633,12 +764,19 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.set_short_long_time_scale(int((self.integration_time2*self.samp_rate/self.vec_length/self.min_integration)/(self.integration_time1*self.samp_rate/self.vec_length/self.min_integration)))
         self.radio_astro_integration_0.set_n_integrations((int(self.integration_time1*self.samp_rate/self.vec_length/self.min_integration)))
 
+    def get_decln(self):
+        return self.decln
+
+    def set_decln(self, decln):
+        self.decln = decln
+        self.set_declnstr( str("%3.2f" % self.decln) if (self.decln<0) else "+"+str("%3.2f" % (self.decln)))
+
     def get_timenow(self):
         return self.timenow
 
     def set_timenow(self, timenow):
         self.timenow = timenow
-        self.set_rectfile(self.prefix + self.timenow + ".h5")
+        self.set_rectfile(self.prefix + self.timenow + "h5")
 
     def get_sinc(self):
         return self.sinc
@@ -660,7 +798,14 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
 
     def set_prefix(self, prefix):
         self.prefix = prefix
-        self.set_rectfile(self.prefix + self.timenow + ".h5")
+        self.set_rectfile(self.prefix + self.timenow + "h5")
+
+    def get_lmst(self):
+        return self.lmst
+
+    def set_lmst(self, lmst):
+        self.lmst = lmst
+        self.set_az(self.lmst)
 
     def get_freq(self):
         return self.freq
@@ -673,19 +818,12 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.qtgui_vector_sink_f_0_0_0.set_x_axis(((self.freq - self.samp_rate/2)/1e6), ((self.samp_rate/self.vec_length)/1e6))
         self.qtgui_vector_sink_f_0_0_1.set_x_axis(((self.freq - self.samp_rate/2)/1e6), ((self.samp_rate/self.vec_length)/1e6))
 
-    def get_ymin(self):
-        return self.ymin
+    def get_declnstr(self):
+        return self.declnstr
 
-    def set_ymin(self, ymin):
-        self.ymin = ymin
-        self.qtgui_vector_sink_f_0_0_1.set_y_axis(self.ymin, self.ymax)
-
-    def get_ymax(self):
-        return self.ymax
-
-    def set_ymax(self, ymax):
-        self.ymax = ymax
-        self.qtgui_vector_sink_f_0_0_1.set_y_axis(self.ymin, self.ymax)
+    def set_declnstr(self, declnstr):
+        self.declnstr = declnstr
+        self.set_dec(self.declnstr)
 
     def get_spectrumcapture_toggle(self):
         return self.spectrumcapture_toggle
@@ -760,14 +898,19 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
     def set_freq_start(self, freq_start):
         self.freq_start = freq_start
 
-    def get_elev(self):
-        return self.elev
+    def get_declnfile(self):
+        return self.declnfile
 
-    def set_elev(self, elev):
-        self.elev = elev
-        Qt.QMetaObject.invokeMethod(self._elev_line_edit, "setText", Qt.Q_ARG("QString", str(self.elev)))
-        self.radio_astro_csv_filesink_0.set_elev(self.elev)
-        self.radio_astro_systemp_calibration_0.set_elev(self.elev)
+    def set_declnfile(self, declnfile):
+        self.declnfile = declnfile
+        self.radio_astro_csv_filesink_0.set_elev(self.declnfile)
+
+    def get_dec(self):
+        return self.dec
+
+    def set_dec(self, dec):
+        self.dec = dec
+        Qt.QMetaObject.invokeMethod(self._dec_label, "setText", Qt.Q_ARG("QString", str(self._dec_formatter(self.dec))))
 
     def get_custom_window(self):
         return self.custom_window
@@ -795,14 +938,28 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self._clip_toggle_callback(self.clip_toggle)
         self.radio_astro_systemp_calibration_0.set_clip_toggle(self.clip_toggle)
 
+    def get_az180(self):
+        return self.az180
+
+    def set_az180(self, az180):
+        self.az180 = az180
+        Qt.QMetaObject.invokeMethod(self._az180_label, "setText", Qt.Q_ARG("QString", str(self._az180_formatter(self.az180))))
+
     def get_az(self):
         return self.az
 
     def set_az(self, az):
         self.az = az
-        Qt.QMetaObject.invokeMethod(self._az_line_edit, "setText", Qt.Q_ARG("QString", str(self.az)))
+        Qt.QMetaObject.invokeMethod(self._az_label, "setText", Qt.Q_ARG("QString", str(self._az_formatter(self.az))))
         self.radio_astro_csv_filesink_0.set_az(self.az)
         self.radio_astro_systemp_calibration_0.set_az(self.az)
+
+    def get_amsl(self):
+        return self.amsl
+
+    def set_amsl(self, amsl):
+        self.amsl = amsl
+        Qt.QMetaObject.invokeMethod(self._amsl_line_edit, "setText", Qt.Q_ARG("QString", str(self.amsl)))
 
     def get_N_long_integration(self):
         return self.N_long_integration
@@ -812,12 +969,21 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
 
 
 
+def argument_parser():
+    parser = ArgumentParser()
+    parser.add_argument(
+        "--dev-args", dest="dev_args", type=str, default='',
+        help="Set dev_args [default=%(default)r]")
+    return parser
+
 
 def main(top_block_cls=DSPIRA_Spectrometer, options=None):
+    if options is None:
+        options = argument_parser().parse_args()
 
     qapp = Qt.QApplication(sys.argv)
 
-    tb = top_block_cls()
+    tb = top_block_cls(dev_args=options.dev_args)
 
     tb.start()
 
