@@ -54,6 +54,7 @@ Now goto Documents/new_gr-radio_astro repository for the next step to install
 copy radioconda sub directory into c:
 --------------------------------
 radioconda/Lib/ra_funcs    (Python file)
+
 radioconda/Lib/site-packages/gnuradio/radio_astro/      (Python files)
 
 radioconda/Library/share/gnuradio/grc/blocs/     (yml files)
