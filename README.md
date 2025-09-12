@@ -68,7 +68,7 @@ Restart Windows ^^
 Open radioconda (Gnuradio) 
 ![new_gr-radio_astro-gnuradio-windows](https://github.com/user-attachments/assets/71c6853b-a6ff-4c70-903d-71fdf8691530)
 
-In file menu goto /Documents/new_gr-radio_astro/DSPIRA/ directory and open "spectrometer_w_cal.grc" then run flowgraph
+In file menu goto /Documents/new_gr-radio_astro/DSPIRA/ directory and open "spectrometer_w_cal_new.grc" then run flowgraph
 ------------------------------------------------------------------------------------------------
 
 ![new_gr-radio_astro_flow_graph](https://github.com/user-attachments/assets/26bf04c3-c633-4173-9dc5-967a31670dfb)
