@@ -49,7 +49,7 @@ git clone https://github.com/Radio-Source/new_gr-radio_astro/
 to copy my new_gr-radio_astro repository in your Documents directory
 
 Now goto Documents/new_gr-radio_astro repository for the next step to install
-![new_gr-radio_astro_dir](https://github.com/user-attachments/assets/13f28fff-2901-468f-8a72-c66e3cc770ba)
+![new_gr-radio_astro_dir](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/new_gr-radio_astro_dir.png)
 
 copy inside radioconda directory (radioconda dir is inside your user namespace)
 --------------------------------
