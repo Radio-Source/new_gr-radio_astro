@@ -1,7 +1,7 @@
 # new_gr-radio_astro
 DSPIRA spectro radiometer modified code Work on Ubuntu 24.04 LTS or Windows 10-11 
 ---
-![new_gr-radio_astro_spectrometer](https://github.com/Radio-Source/new_gr-radio_astro/blob/d083ec4d21bdb5221ccc9b7c27632936a2d0eb6b/using3_new_gr-radio_astro_spectrometer.png)
+![new_gr-radio_astro_spectrometer](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/using3_new_gr-radio_astro_spectrometer.png)
 
 prerequisites
 Python 3.xx
@@ -44,12 +44,12 @@ Then type command :
 ```bash
 git clone https://github.com/Radio-Source/new_gr-radio_astro/
 ```
-![new_gr-radio_astro_cmd-git](https://github.com/user-attachments/assets/311a77b3-4a9e-498c-ad65-43ce8cca50d9)
+![new_gr-radio_astro_cmd-git](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_cmd-git.png)
 
 to copy my new_gr-radio_astro repository in your Documents directory
 
 Now goto Documents/new_gr-radio_astro repository for the next step to install
-![new_gr-radio_astro_dir](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/new_gr-radio_astro_dir.png)
+![new_gr-radio_astro_dir](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_dir.png)
 
 copy inside radioconda directory (radioconda dir is inside your user namespace)
 --------------------------------
