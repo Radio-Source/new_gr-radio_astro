@@ -41,8 +41,9 @@ Read comment about SDR install under Windows
 Download git for easy copying my repository  https://git-scm.com/downloads/win
 After install open CMD shell and goto your Documents directory
 Then type command :
-
+```bash
 git clone https://github.com/Radio-Source/new_gr-radio_astro/
+```
 ![new_gr-radio_astro_cmd-git](https://github.com/user-attachments/assets/311a77b3-4a9e-498c-ad65-43ce8cca50d9)
 
 to copy my new_gr-radio_astro repository in your Documents directory
