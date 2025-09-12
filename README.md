@@ -31,8 +31,9 @@ Windows 10-11 install
 Download and install Python 3.12 or 3.13 https://www.python.org/downloads/windows/
 
 Use CMD console to install Qt5 with command :
+```bash
 pip3 install pyqt5
-
+```
 Download and install radioconda (Gnuradio for Windows) https://github.com/ryanvolz/radioconda
 
 Read comment about SDR install under Windows
