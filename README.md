@@ -103,7 +103,7 @@ In file menu goto \Documents\new_gr-radio_astro\DSPIRA\ directory and open flowg
 
 ![new_gr-radio_astro_flow_graph_SDR](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_flow_graph_SDR.png)
 
-You can change thse parameters for all SDR type
+You can change these parameters for all SDR type
 ---------------
 
 Sampling rate
