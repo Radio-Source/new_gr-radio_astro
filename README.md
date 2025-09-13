@@ -169,6 +169,26 @@ YYYY-MM-DD_UT-H-M-S.s_Location_RA-LMST__Delination_qpectrum.csv
 
 ![new_gr-radio_astro_gnuradio_frontend](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_gnuradio_frontend2.png)
 
+
+Data acquisition with calibration using noise source
+---------------
+
+Nooelec SAWbird+ H1t Barebones have sitch will disconnect the RF SMA input and connects the input of the SAWbird+ H1t to an internal 50Ω resistor
+
+I run the software while 2 mn with SAWbird+ H1t to an internal 50Ω resistor and on Hot calibration on
+
+Just befor the end of these 2 mn I click on spectrum with calibration, then the software calculate de difference an display an spectrum calibrated.
+
+I not use cold calibration because I don't see an difference of the calibration.
+
+* Calibration
+![using1_new_gr-radio_astro_spectrometer](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/using1_new_gr-radio_astro_spectrometer.png)
+
+* spectrum calibrated
+![using2_new_gr-radio_astro_spectrometer](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/using2_new_gr-radio_astro_spectrometer.png)
+
+
+
 Contributing
 ---------------
 
