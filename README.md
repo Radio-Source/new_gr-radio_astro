@@ -103,4 +103,12 @@ In file menu goto \Documents\new_gr-radio_astro\DSPIRA\ directory and open flowg
 
 ![new_gr-radio_astro_flow_graph_SDR](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_flow_graph_SDR.png)
 
+You can change thse parameters for all SDR type
+---------------
 
+Sampling rate
+For Airspy R2 is 10e6(10 Mhz) or 2.5e6 (2.5 Mhz) for Airspy Mini is 6e6 (6 Mhz) or 2.5e6 (2.5 Mhz)
+By defaut is 10 Mhz in AIRSPY flowgraph because I have AIrspy R2 and have best result with these value.
+
+For other SDR by default the value is a common value 2.5e6 (2.5 Mhz), you can change as you whant.
+![using_new_gr-radio_astro-samp_rate](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/using_new_gr-radio_astro-samp_rate.png)
