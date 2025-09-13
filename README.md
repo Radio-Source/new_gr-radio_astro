@@ -6,18 +6,18 @@ DSPIRA spectro radiometer modified code Work on Ubuntu 24.04 LTS or Windows 10-1
 Summary
 -------------
 
-*prerequisites
+* Prerequisites
 
-*Linux Install
+* Linux Install
 
-*Windows 10-11 install
+* Windows 10-11 install
 
-*Usage
+* Usage
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-prerequisites
+Prerequisites
 -------------
 
 Python 3.xx
