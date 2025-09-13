@@ -72,18 +72,22 @@ Restart Windows ^^
 Open radioconda (Gnuradio) 
 ![new_gr-radio_astro-gnuradio-windows](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro-gnuradio-windows.png)
 
+If you have Airspy
+---------------
+
 In file menu goto \Documents\new_gr-radio_astro\DSPIRA\ directory and open flowgraph
- "spectrometer_w_cal_new.grc"
+ "spectrometer_AIRSPY_new.grc"
 
 ------------------------------------------------------------------------------------------------
 
 ![new_gr-radio_astro_flow_graph](https://github.com/user-attachments/assets/26bf04c3-c633-4173-9dc5-967a31670dfb)
 
-You can change some parameters in flowgraph (see explanation in the Docs of DSPIRA)
+You can change some parameters in flowgraph 
 
-for example, if you whant to go up the power from our SDR to lna, change in osmocom source Bias value 0 to 1
+for example, if you whant to go up integrated Airspy BiasTee to lna (like SHAWbird H1), change in osmocom source Bias value 0 to 1, by default is bias=0
+```bash
 airpy=0,bias=1,pack=0
-
+```
 In my original flowgraph have remover SDR value for using with all SDR hardware.
 
 ![new_gr-radio_astro_edit_flowgraph](https://github.com/user-attachments/assets/881a64fe-53ab-4ace-9ecf-889b87d032de)
