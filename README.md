@@ -52,16 +52,16 @@ git clone https://github.com/Radio-Source/new_gr-radio_astro/
 
 Open Files Browser, to copy my new_gr-radio_astro repository in your Documents directory
 
-Now goto Documents/new_gr-radio_astro repository for the next step to install
+Goto Documents/new_gr-radio_astro repository for the next step to install
 ![new_gr-radio_astro_dir](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_dir.png)
 
 copy radioconda sub directory into c:\ProgramData\
 --------------------------------
 radioconda\Lib\ra_funcs    (Python file)
 
-radioconda\Lib\site-packages/gnuradio/radio_astro/      (Python files)
+radioconda\Lib\site-packages\gnuradio\radio_astro\      (Python files)
 
-radioconda\Library\share/gnuradio/grc/blocs/     (yml files)
+radioconda\Library\share\gnuradio\grc\blocs\     (yml files)
 
 
 ![new_gr-radio_astro_nuradio_dir](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_nuradio_dir.png)
@@ -72,9 +72,8 @@ Restart Windows ^^
 Open radioconda (Gnuradio) 
 ![new_gr-radio_astro-gnuradio-windows](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro-gnuradio-windows.png)
 
-In file menu goto /Documents/new_gr-radio_astro/DSPIRA/ directory and open
+In file menu goto \Documents\new_gr-radio_astro\DSPIRA\ directory and open flowgraph
  "spectrometer_w_cal_new.grc"
-then run flowgraph
 
 ------------------------------------------------------------------------------------------------
 
