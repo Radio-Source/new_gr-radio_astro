@@ -147,8 +147,21 @@ These parameters are used to calculate the sidereal time and the observed declin
 Used in the name of the file for simplify data post processing.
 
 You can change by double click on the box or while the software running :
+
 Location (QT GUI ENTRY Location)
+
 AMSL (QT GUI ENTRY amsl - Altitude Above Mean Sea Level in meters)
+
+Longitude (QT GUI ENTRY Longitude in deg - (minus) for West of Greenwitch)
+
+Latitude (QT GUI ENTRY Latitude in deg - (minus) for South)
+
+elev  (QT GUI ENTRY elevation of the antenna in deg)
+
+Azimut of the antenna is 180 - meridian transit - it is fixed, for the moment
+
+
+
 
 
 Contributing
