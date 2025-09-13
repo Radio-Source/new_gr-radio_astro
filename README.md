@@ -128,6 +128,7 @@ You can change these parameters for all SDR type
 ---------------
 
 Sampling rate
+---------------
 
 For Airspy R2 is 10e6(10 Mhz) or 2.5e6 (2.5 Mhz) for Airspy Mini is 6e6 (6 Mhz) or 2.5e6 (2.5 Mhz)
 
@@ -139,9 +140,15 @@ For other SDR by default the value is a common value 2.5e6 (2.5 Mhz), you can ch
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
+Astronomical parameters
+---------------
 
+These parameters are used to calculate the sidereal time and the observed declination
+Used in the name of the file for simplify data post processing.
 
-
+You can change by double click on the box or while the software running :
+Location (QT GUI ENTRY Location)
+AMSL (QT GUI ENTRY amsl - Altitude Above Mean Sea Level in meters)
 
 
 Contributing
