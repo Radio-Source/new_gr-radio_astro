@@ -22,7 +22,7 @@ Next you run directly from shell with command :
 Python3 DSPIRA_Spectrometer.py
 
 
-
+---
 
 
 
@@ -57,10 +57,11 @@ Goto Documents/new_gr-radio_astro repository for the next step to install
 
 copy radioconda sub directory into c:\ProgramData\
 --------------------------------
+
+this copies these folders into c:\ProgramData\radioconda\
+
 radioconda\Lib\ra_funcs    (Python file)
-
 radioconda\Lib\site-packages\gnuradio\radio_astro\      (Python files)
-
 radioconda\Library\share\gnuradio\grc\blocs\     (yml files)
 
 
