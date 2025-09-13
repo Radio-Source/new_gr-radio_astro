@@ -45,6 +45,7 @@ Download git for easy copying my repository  https://git-scm.com/downloads/win
 After install open CMD shell and goto your Documents directory
 Then type command :
 ```bash
+cd Documents
 git clone https://github.com/Radio-Source/new_gr-radio_astro/
 ```
 ![new_gr-radio_astro_cmd-git](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_cmd-git.png)
