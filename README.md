@@ -34,7 +34,8 @@ Use CMD console to install Qt5 with command :
 ```bash
 pip3 install pyqt5
 ```
-Download and install radioconda (Gnuradio for Windows) https://github.com/ryanvolz/radioconda
+Download and install radioconda (Gnuradio for Windows)  (install for user only not for all) 
+https://github.com/ryanvolz/radioconda
 
 Read comment about SDR install under Windows
 
@@ -51,13 +52,13 @@ to copy my new_gr-radio_astro repository in your Documents directory
 Now goto Documents/new_gr-radio_astro repository for the next step to install
 ![new_gr-radio_astro_dir](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_dir.png)
 
-copy radioconda sub directory into c:
+copy radioconda sub directory into c:\ProgramData\
 --------------------------------
-radioconda/Lib/ra_funcs    (Python file)
+radioconda\Lib\ra_funcs    (Python file)
 
-radioconda/Lib/site-packages/gnuradio/radio_astro/      (Python files)
+radioconda\Lib\site-packages/gnuradio/radio_astro/      (Python files)
 
-radioconda/Library/share/gnuradio/grc/blocs/     (yml files)
+radioconda\Library\share/gnuradio/grc/blocs/     (yml files)
 
 
 ![new_gr-radio_astro_nuradio_dir](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_nuradio_dir.png)
@@ -66,7 +67,7 @@ Restart Windows ^^
 ---------------
 
 Open radioconda (Gnuradio) 
-![new_gr-radio_astro-gnuradio-windows](https://github.com/user-attachments/assets/71c6853b-a6ff-4c70-903d-71fdf8691530)
+![new_gr-radio_astro-gnuradio-windows](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro-gnuradio-windows.png)
 
 In file menu goto /Documents/new_gr-radio_astro/DSPIRA/ directory and open
  "spectrometer_w_cal_new.grc"
