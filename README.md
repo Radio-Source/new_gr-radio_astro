@@ -138,3 +138,12 @@ For other SDR by default the value is a common value 2.5e6 (2.5 Mhz), you can ch
 
 Contributing
 ---------------
+
+NSF (National Science Foundation) DSPIRA (Digital Signal Processing in Radio Astronomy)
+
+https://wvurail.org/dspira/
+
+ra_funcs python code from Marcus Leech Canadian Centre for Experimental Radio Astronomy
+
+https://www.ccera.ca/about/
+
