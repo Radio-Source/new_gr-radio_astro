@@ -50,7 +50,7 @@ git clone https://github.com/Radio-Source/new_gr-radio_astro/
 ```
 ![new_gr-radio_astro_cmd-git](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_cmd-git.png)
 
-to copy my new_gr-radio_astro repository in your Documents directory
+Open Files Browser, to copy my new_gr-radio_astro repository in your Documents directory
 
 Now goto Documents/new_gr-radio_astro repository for the next step to install
 ![new_gr-radio_astro_dir](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_dir.png)
