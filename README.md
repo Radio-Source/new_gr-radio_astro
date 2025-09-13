@@ -3,9 +3,17 @@ DSPIRA spectro radiometer modified code Work on Ubuntu 24.04 LTS or Windows 10-1
 ---
 ![new_gr-radio_astro_spectrometer](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/using3_new_gr-radio_astro_spectrometer.png)
 
+Summary
+-------------
+
+
 prerequisites
+-------------
+
 Python 3.xx
-GnuRadio (linux)       Radioconda (Windows)
+GnuRadio (linux)
+Radioconda (Windows)
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
