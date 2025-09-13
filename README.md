@@ -11,8 +11,10 @@ GnuRadio (linux)       Radioconda (Windows)
 
 
 
-Linux Install (please see explainations here https://github.com/WVURAIL/gr-radio_astro or in my fork https://github.com/Radio-Source/gr-radio_astro
+Linux Install 
 -------------
+(please see explainations here https://github.com/WVURAIL/gr-radio_astro or in my fork https://github.com/Radio-Source/gr-radio_astro
+
 Then copy or clone my modified code of DSPIRA Spectrometer in https://github.com/Radio-Source/new_gr-radio_astro/tree/main/DSPIRA
 
 Run Gnuradio-Compagnion open /DSPIRA/spectrometer_w_cal_new.grc and run 
