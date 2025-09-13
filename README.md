@@ -15,6 +15,7 @@ Summary
 *Usage
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 prerequisites
 -------------
@@ -39,9 +40,7 @@ Next you run directly from shell with command :
 Python3 DSPIRA_Spectrometer.py
 
 
----
-
-
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 Windows 10-11 install
 ---------------------
@@ -89,7 +88,7 @@ radioconda\Library\share\gnuradio\grc\blocs\     (yml files)
 Don't miss Restart Windows ^^
 ---------------
 
----
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 Usage
 ---------------
@@ -134,5 +133,7 @@ By defaut is 10 Mhz in AIRSPY flowgraph because I have AIrspy R2 and have best r
 
 For other SDR by default the value is a common value 2.5e6 (2.5 Mhz), you can change as you whant.
 ![using_new_gr-radio_astro-samp_rate](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/using_new_gr-radio_astro-samp_rate.png)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 ##Contributing
