@@ -81,7 +81,7 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         self.elev = elev = '45'
         self.tiktok = tiktok = pacer*0.0
         self.sinc_sample_locations = sinc_sample_locations = np.arange(-np.pi*4/2.0, np.pi*4/2.0, np.pi/vec_length)
-        self.samp_rate = samp_rate = 10e6
+        self.samp_rate = samp_rate = 2.5e6
         self.min_integration = min_integration = 16
         self.longitude = longitude = 0
         self.integration_time2 = integration_time2 = 60.00
@@ -506,7 +506,7 @@ class DSPIRA_Spectrometer(gr.top_block, Qt.QWidget):
         _pacer_thread.daemon = True
         _pacer_thread.start()
         self.osmosdr_source_0 = osmosdr.source(
-            args="numchan=" + str(1) + " " + 'airspy=0,bias=0,pack=0'
+            args="numchan=" + str(1) + " " + ''
         )
         self.osmosdr_source_0.set_time_now(osmosdr.time_spec_t(time.time()), osmosdr.ALL_MBOARDS)
         self.osmosdr_source_0.set_sample_rate(samp_rate)

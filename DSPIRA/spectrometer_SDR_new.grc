@@ -42,25 +42,57 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [688, 828.0]
+    coordinate: [680, 848.0]
     rotation: 0
     state: true
-- name: az
+- name: amsl
   id: variable_qtgui_entry
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: qtgui_tab_widget_0@0:[2,0,1,2]
-    label: azimuth (hit 'Enter' after typing)
-    type: string
-    value: '0'
+    gui_hint: qtgui_tab_widget_0@0:[3,2,1,2]
+    label: '"AMSL "'
+    type: int
+    value: '600'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1368, 668.0]
+    coordinate: [1248, 952.0]
     rotation: 0
-    state: true
+    state: enabled
+- name: az
+  id: variable_qtgui_label
+  parameters:
+    comment: ''
+    formatter: None
+    gui_hint: 'qtgui_tab_widget_0@0:[2,1,1,1] '
+    label: '"LMST : "'
+    type: string
+    value: lmst
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1432, 644.0]
+    rotation: 0
+    state: enabled
+- name: az180
+  id: variable_qtgui_label
+  parameters:
+    comment: ''
+    formatter: None
+    gui_hint: qtgui_tab_widget_0@0:[2,0,1,1]
+    label: '"az : "'
+    type: string
+    value: '180'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1256, 652.0]
+    rotation: 0
+    state: enabled
 - name: clip_toggle
   id: variable_qtgui_chooser
   parameters:
@@ -88,14 +120,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 852.0]
+    coordinate: [224, 808.0]
     rotation: 0
     state: enabled
 - name: collect
   id: variable_qtgui_chooser
   parameters:
     comment: ''
-    gui_hint: qtgui_tab_widget_0@0:[0,1,1,1]
+    gui_hint: qtgui_tab_widget_0@0:[0,0,1,1]
     label: '"Spectrum Display"'
     label0: '"Filtered spectrum with no calibration"'
     label1: '"Spectrum with calibration"'
@@ -118,7 +150,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 604.0]
+    coordinate: [8, 568.0]
     rotation: 0
     state: true
 - name: custom_window
@@ -133,20 +165,72 @@ blocks:
     coordinate: [1320, 1488.0]
     rotation: 180
     state: true
+- name: dec
+  id: variable_qtgui_label
+  parameters:
+    comment: ''
+    formatter: None
+    gui_hint: 'qtgui_tab_widget_0@0:[3,6,1,2] '
+    label: '"Target DEC : "'
+    type: string
+    value: declnstr
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1448, 956.0]
+    rotation: 0
+    state: enabled
+- name: decln
+  id: variable
+  parameters:
+    comment: ''
+    value: float(elev)-latitude
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [848, 776.0]
+    rotation: 0
+    state: enabled
+- name: declnfile
+  id: variable
+  parameters:
+    comment: ''
+    value: 'declnstr.replace(".","d")  '
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [848, 928.0]
+    rotation: 0
+    state: enabled
+- name: declnstr
+  id: variable
+  parameters:
+    comment: ''
+    value: ' str("%3.2f" % decln) if (decln<0) else "+"+str("%3.2f" % (decln))'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [848, 848.0]
+    rotation: 0
+    state: enabled
 - name: elev
   id: variable_qtgui_entry
   parameters:
     comment: ''
     entry_signal: editingFinished
     gui_hint: qtgui_tab_widget_0@0:[3,0,1,2]
-    label: elevation (hit 'Enter' after typing)
+    label: elevation (hit 'Enter')
     type: string
-    value: '0'
+    value: '45'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1368, 748.0]
+    coordinate: [1248, 756.0]
     rotation: 0
     state: true
 - name: freq
@@ -158,7 +242,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 12.0]
+    coordinate: [344, 16.0]
     rotation: 0
     state: true
 - name: freq_start
@@ -170,7 +254,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 12.0]
+    coordinate: [472, 16.0]
     rotation: 0
     state: true
 - name: freq_step
@@ -182,7 +266,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 12.0]
+    coordinate: [600, 16.0]
     rotation: 0
     state: true
 - name: graphinfo
@@ -198,7 +282,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 1004.0]
+    coordinate: [216, 1004.0]
     rotation: 0
     state: true
 - name: graphprint_toggle
@@ -215,7 +299,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 1020.0]
+    coordinate: [16, 1064.0]
     rotation: 0
     state: true
 - name: integration_select
@@ -239,55 +323,99 @@ blocks:
     options: '[0, 1, 2]'
     orient: Qt.QVBoxLayout
     type: int
-    value: '0'
+    value: '1'
     widget: radio_buttons
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [688, 508.0]
+    coordinate: [680, 468.0]
     rotation: 0
     state: true
 - name: integration_time1
   id: variable
   parameters:
     comment: ''
-    value: '.4'
+    value: '0.5'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1192, 92.0]
+    coordinate: [1200, 112.0]
     rotation: 0
     state: true
 - name: integration_time2
   id: variable
   parameters:
     comment: ''
-    value: '10'
+    value: '60.00'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 92.0]
+    coordinate: [1040, 112.0]
     rotation: 0
     state: true
+- name: latitude
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: 'qtgui_tab_widget_0@0:[3,4,1,2] '
+    label: '"Latitude "'
+    type: real
+    value: '45.0000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1448, 860.0]
+    rotation: 0
+    state: enabled
+- name: lmst
+  id: variable
+  parameters:
+    comment: ''
+    value: ra_funcs.cur_sidereal(longitude+tiktok)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 120.0]
+    rotation: 0
+    state: enabled
 - name: location
   id: variable_qtgui_entry
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: qtgui_tab_widget_0@0:[2,3,1,4]
-    label: location (hit 'Enter' after typing)
+    gui_hint: qtgui_tab_widget_0@0:[2,2,1,2]
+    label: '"Location  "'
     type: string
-    value: Anytown
+    value: yourtown
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1376, 844.0]
+    coordinate: [1248, 856.0]
     rotation: 0
     state: true
+- name: longitude
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: 'qtgui_tab_widget_0@0:[2,4,1,2] '
+    label: 'Longitude '
+    type: real
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1448, 764.0]
+    rotation: 0
+    state: enabled
 - name: min_integration
   id: variable
   parameters:
@@ -297,9 +425,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [800, 16.0]
+    coordinate: [848, 8.0]
     rotation: 0
     state: enabled
+- name: pacer
+  id: variable_function_probe
+  parameters:
+    block_id: pacer_probe
+    comment: 'A bit of a hack to get us an LMST
+
+      display that is updated at 1Hz'
+    function_args: ''
+    function_name: level
+    poll_rate: '1'
+    value: '0.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 676.0]
+    rotation: 0
+    state: true
 - name: prefix
   id: variable
   parameters:
@@ -309,19 +455,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1328, 92.0]
+    coordinate: [1360, 112.0]
     rotation: 180
     state: true
 - name: rectfile
   id: variable
   parameters:
     comment: ''
-    value: prefix + timenow + ".h5"
+    value: prefix + timenow + "h5"
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 80.0]
+    coordinate: [608, 96.0]
     rotation: 0
     state: true
 - name: reset_integration_button
@@ -338,19 +484,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [688, 660.0]
+    coordinate: [680, 648.0]
     rotation: 0
     state: enabled
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: 10e6
+    value: 2.5e6
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 8.0]
+    coordinate: [32, 136.0]
     rotation: 0
     state: enabled
 - name: save_toggle_csv
@@ -370,7 +516,7 @@ blocks:
     option1: '"True"'
     option2: '2'
     option3: '3'
-    option4: '4'
+    option4: '5'
     options: '[0, 1, 2]'
     orient: Qt.QVBoxLayout
     type: string
@@ -392,7 +538,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [688, 764.0]
+    coordinate: [680, 776.0]
     rotation: 0
     state: true
 - name: sinc
@@ -404,7 +550,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [936, 1492.0]
+    coordinate: [904, 1488.0]
     rotation: 180
     state: true
 - name: sinc_sample_locations
@@ -433,19 +579,31 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 732.0]
+    coordinate: [216, 676.0]
     rotation: 0
     state: enabled
-- name: timenow
+- name: tiktok
   id: variable
   parameters:
     comment: ''
-    value: datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
+    value: pacer*0.0
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 76.0]
+    coordinate: [600, 672.0]
+    rotation: 0
+    state: true
+- name: timenow
+  id: variable
+  parameters:
+    comment: ''
+    value: datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [392, 104.0]
     rotation: 0
     state: true
 - name: vec_length
@@ -457,49 +615,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [216, 76.0]
-    rotation: 0
-    state: true
-- name: ymax
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: qtgui_tab_widget_0@0:[1,0,1,1]
-    label: y-axis max
-    min_len: '5'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '10'
-    stop: '10000'
-    value: '200'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [576, 1220.0]
-    rotation: 0
-    state: true
-- name: ymin
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: qtgui_tab_widget_0@0 :[0,0,1,1]
-    label: y-axis min
-    min_len: '5'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '-200'
-    step: '10'
-    stop: '1000'
-    value: '0'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [424, 1220.0]
+    coordinate: [224, 16.0]
     rotation: 0
     state: true
 - name: blocks_add_xx_0
@@ -533,7 +649,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280.0, 400]
+    coordinate: [304.0, 408]
     rotation: 270
     state: enabled
 - name: blocks_complex_to_real_1
@@ -643,7 +759,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1400, 296.0]
+    coordinate: [1432, 216.0]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -813,6 +929,23 @@ blocks:
     coordinate: [536, 400.0]
     rotation: 0
     state: true
+- name: dev_args
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: ''
+    short_id: ''
+    type: str
+    value: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 472.0]
+    rotation: 0
+    state: enabled
 - name: fft_vxx_0
   id: fft_vxx
   parameters:
@@ -831,7 +964,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1144, 276.0]
+    coordinate: [1192, 276.0]
     rotation: 0
     state: true
 - name: import_0
@@ -844,7 +977,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 128.0]
+    coordinate: [1288, 16.0]
     rotation: 0
     state: true
 - name: import_0_0
@@ -857,24 +990,35 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [120, 144.0]
+    coordinate: [1008, 16.0]
     rotation: 0
     state: true
-- name: note_0
-  id: note
+- name: import_1
+  id: import
   parameters:
     alias: ''
-    comment: 'Check/change these variables
-
-      before each run.'
-    note: USER DEFINED VARIABLES
+    comment: ''
+    imports: import ephem
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1152, 12.0]
+    coordinate: [1384, 16.0]
     rotation: 0
-    state: true
+    state: enabled
+- name: import_2
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import ra_funcs
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1152, 16.0]
+    rotation: 0
+    state: enabled
 - name: note_0_0
   id: note
   parameters:
@@ -885,20 +1029,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1128, 1436.0]
-    rotation: 0
-    state: enabled
-- name: note_0_0_0
-  id: note
-  parameters:
-    alias: ''
-    comment: ''
-    note: Graph Options
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [504, 1156.0]
+    coordinate: [1112, 1432.0]
     rotation: 0
     state: enabled
 - name: osmosdr_source_0
@@ -938,8 +1069,8 @@ blocks:
     ant7: ''
     ant8: ''
     ant9: ''
-    args: airspy=0,bias=1,pack=0
-    bb_gain0: '0'
+    args: ''
+    bb_gain0: '20'
     bb_gain1: '20'
     bb_gain10: '20'
     bb_gain11: '20'
@@ -1108,7 +1239,7 @@ blocks:
     freq7: 100e6
     freq8: 100e6
     freq9: 100e6
-    gain0: '21'
+    gain0: '50'
     gain1: '10'
     gain10: '10'
     gain11: '10'
@@ -1172,7 +1303,7 @@ blocks:
     gain_mode7: 'False'
     gain_mode8: 'False'
     gain_mode9: 'False'
-    if_gain0: '0'
+    if_gain0: '20'
     if_gain1: '20'
     if_gain10: '20'
     if_gain11: '20'
@@ -1241,7 +1372,7 @@ blocks:
     nchan: '1'
     num_mboards: '1'
     sample_rate: samp_rate
-    sync: sync
+    sync: pc_clock
     time_source0: ''
     time_source1: ''
     time_source2: ''
@@ -1256,6 +1387,20 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [32, 220.0]
+    rotation: 0
+    state: true
+- name: pacer_probe
+  id: blocks_probe_signal_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    type: float
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [264, 600.0]
     rotation: 0
     state: true
 - name: qtgui_histogram_sink_x_0
@@ -1376,7 +1521,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 1108.0]
+    coordinate: [216, 1108.0]
     rotation: 0
     state: true
 - name: qtgui_vector_sink_f_0_0
@@ -1592,8 +1737,8 @@ blocks:
     x_units: '"MHz"'
     y_axis_label: '"Signal"'
     y_units: '""'
-    ymax: ymax
-    ymin: ymin
+    ymax: '200'
+    ymin: '0'
   states:
     bus_sink: false
     bus_source: false
@@ -1608,7 +1753,7 @@ blocks:
     alias: ''
     az: az
     comment: ''
-    elev: elev
+    elev: declnfile
     freq: freq
     integration_select: integration_select
     location: location
@@ -1621,7 +1766,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [656, 932.0]
+    coordinate: [424, 836.0]
     rotation: 180
     state: enabled
 - name: radio_astro_integration_0
@@ -1657,7 +1802,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 948.0]
+    coordinate: [424, 1048.0]
     rotation: 180
     state: true
 - name: radio_astro_systemp_calibration_0
@@ -1707,6 +1852,7 @@ blocks:
 
 connections:
 - [blocks_add_xx_0, '0', fft_vxx_0, '0']
+- [blocks_complex_to_real_0, '0', pacer_probe, '0']
 - [blocks_complex_to_real_0, '0', qtgui_histogram_sink_x_0, '0']
 - [blocks_complex_to_real_1, '0', blocks_integrate_xx_0_0_0, '0']
 - [blocks_delay_0, '0', blocks_stream_to_vector_0_0, '0']
