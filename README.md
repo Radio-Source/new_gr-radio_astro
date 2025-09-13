@@ -72,7 +72,7 @@ Don't miss Restart Windows ^^
 Usage
 ---------------
 
-Open radioconda (Gnuradio) 
+Open radioconda software (Gnuradio) 
 ![new_gr-radio_astro-gnuradio-windows](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro-gnuradio-windows.png)
 
 If you have Airspy
