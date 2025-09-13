@@ -61,7 +61,9 @@ copy radioconda sub directory into c:\ProgramData\
 this copies these folders into c:\ProgramData\radioconda\
 
 radioconda\Lib\ra_funcs    (Python file)
+
 radioconda\Lib\site-packages\gnuradio\radio_astro\      (Python files)
+
 radioconda\Library\share\gnuradio\grc\blocs\     (yml files)
 
 
