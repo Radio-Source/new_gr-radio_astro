@@ -108,7 +108,7 @@ In file menu goto \Documents\new_gr-radio_astro\DSPIRA\ directory and open flowg
 
 You can change some parameters in flowgraph by double click on the box
 
-for example, if you whant to go up integrated Airspy BiasTee to lna (like Nooelec SHAWbird H1), change in osmocom source Bias **value 0 to 1**, by default is bias=0
+for example, if you whant to go up integrated Airspy BiasTee to lna (eg: Nooelec SHAWbird H1), change in osmocom source Bias **value 0 to 1**, by default is bias=0
 ```bash
 airpy=0,bias=1,pack=0
 ```
