@@ -89,7 +89,7 @@ for example, if you whant to go up integrated Airspy BiasTee to lna (like SHAWbi
 airpy=0,bias=1,pack=0
 ```
 
-https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/using_new_gr-radio_astro-AIRSPY_biastee_parameters.png
+![using_new_gr-radio_astro-AIRSPY_biastee_parameters](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/using_new_gr-radio_astro-AIRSPY_biastee_parameters.png)
 
 If you have other SDR
 ---------------
@@ -97,6 +97,7 @@ If you have other SDR
 In file menu goto \Documents\new_gr-radio_astro\DSPIRA\ directory and open flowgraph
  "spectrometer_SDR_new.grc"
 
-![using_new_gr-radio_astro-AIRSPY_biastee_parameters](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/using_new_gr-radio_astro-AIRSPY_biastee_parameters.png)
+
+![new_gr-radio_astro_flow_graph_SDR](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_flow_graph_SDR.png)
 
 
