@@ -160,9 +160,14 @@ elev  (QT GUI ENTRY elevation of the antenna in deg)
 
 Azimut of the antenna is 180 - meridian transit - it is fixed, for the moment
 
+All these parameters will determine the name of the file
 
+here is an example (in sample DATA):
 
+2025-09-10_21-48-25.7_Solagues_21h10m16_+27d07_spectrum.csv
+YYYY-MM-DD_UT-H-M-S.s_Location_RA-LMST__Delination_qpectrum.csv
 
+![new_gr-radio_astro_gnuradio_frontend](https://github.com/Radio-Source/new_gr-radio_astro/blob/main/img/new_gr-radio_astro_gnuradio_frontend2.png)
 
 Contributing
 ---------------
